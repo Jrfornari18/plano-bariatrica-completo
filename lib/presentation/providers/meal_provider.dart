@@ -115,6 +115,51 @@ class MealProvider extends ChangeNotifier {
     return ['Todos', ...cats];
   }
 
+  // ─── Water Tracking ───────────────────────────────────────────────────────
+  int _waterGlasses = 0;
+  int get waterGlasses => _waterGlasses;
+
+  void toggleWaterGlass(int index) {
+    if (index < _waterGlasses) {
+      _waterGlasses = index;
+    } else {
+      _waterGlasses = index + 1;
+    }
+    notifyListeners();
+  }
+
+  // ─── Week Macros History ─────────────────────────────────────────────────
+  List<MacrosModel> get weekMacrosHistory {
+    final today = DateTime.now();
+    return List.generate(7, (i) {
+      final day = today.subtract(Duration(days: 6 - i));
+      final dayMeals = _meals.where((m) =>
+          m.date.year == day.year &&
+          m.date.month == day.month &&
+          m.date.day == day.day &&
+          m.isLogged);
+      if (dayMeals.isEmpty) {
+        return const MacrosModel(protein: 0, carbs: 0, fat: 0, calories: 0);
+      }
+      return dayMeals.fold(
+        const MacrosModel(protein: 0, carbs: 0, fat: 0, calories: 0),
+        (prev, meal) => prev + meal.totalMacros,
+      );
+    });
+  }
+
+  // ─── Toggle Meal Logged (alias) ───────────────────────────────────────────
+  Future<void> toggleMealLogged(String mealId) => logMeal(mealId);
+
+  // ─── Filtered Recipes ────────────────────────────────────────────────────
+  List<RecipeModel> filteredRecipes(String query, {String? category}) {
+    var result = query.isEmpty ? _recipes : searchRecipes(query);
+    if (category != null && category != 'Todos') {
+      result = result.where((r) => r.category == category).toList();
+    }
+    return result;
+  }
+
   // ─── Meal Generators ───────────────────────────────────────────────────────
 
   List<MealModel> _generateMealsForDay(DateTime date, int dayOfWeek) {

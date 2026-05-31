@@ -62,8 +62,8 @@ class BarifitApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Barifit+',
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
         themeMode: ThemeMode.system,
         initialRoute: '/splash',
         routes: {

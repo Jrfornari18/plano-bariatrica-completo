@@ -15,6 +15,17 @@ class _RecipesScreenState extends State<RecipesScreen> {
   String _searchQuery = '';
   String? _selectedCategory;
 
+  String _categoryEmoji(String category) {
+    switch (category.toLowerCase()) {
+      case 'café da manhã': return '☕';
+      case 'almoço/jantar': return '🍽️';
+      case 'lanches': return '🥗';
+      case 'pós-treino': return '💪';
+      case 'sobremesas': return '🍰';
+      default: return '🍽️';
+    }
+  }
+
   final List<String> _categories = [
     'Todas',
     'Café da manhã',
@@ -35,7 +46,7 @@ class _RecipesScreenState extends State<RecipesScreen> {
       body: Consumer<MealProvider>(
         builder: (context, provider, _) {
           final recipes = provider.filteredRecipes(
-            query: _searchQuery,
+            _searchQuery,
             category: _selectedCategory == 'Todas' ? null : _selectedCategory,
           );
 
@@ -157,6 +168,17 @@ class _RecipeCard extends StatelessWidget {
 
   const _RecipeCard({required this.recipe});
 
+  String _categoryEmoji(String category) {
+    switch (category.toLowerCase()) {
+      case 'café da manhã': return '☕';
+      case 'almoço/jantar': return '🍽️';
+      case 'lanches': return '🥗';
+      case 'pós-treino': return '💪';
+      case 'sobremesas': return '🍰';
+      default: return '🍽️';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -182,7 +204,7 @@ class _RecipeCard extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  recipe.emoji,
+                  _categoryEmoji(recipe.category),
                   style: const TextStyle(fontSize: 48),
                 ),
               ),
@@ -205,7 +227,7 @@ class _RecipeCard extends StatelessWidget {
                           size: 12, color: AppColors.textHint),
                       const SizedBox(width: 2),
                       Text(
-                        '${recipe.prepTimeMinutes} min',
+                        '${recipe.prepTime} min',
                         style: AppTextStyles.caption,
                       ),
                     ],
@@ -276,7 +298,7 @@ class _RecipeCard extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.lg),
               Center(
-                child: Text(recipe.emoji,
+                child: Text(_categoryEmoji(recipe.category),
                     style: const TextStyle(fontSize: 64)),
               ),
               const SizedBox(height: AppSpacing.md),
@@ -287,7 +309,7 @@ class _RecipeCard extends StatelessWidget {
                   const Icon(Icons.timer_outlined,
                       size: 16, color: AppColors.textHint),
                   const SizedBox(width: 4),
-                  Text('${recipe.prepTimeMinutes} min',
+                  Text('${recipe.prepTime} min',
                       style: AppTextStyles.bodySmall),
                   const SizedBox(width: AppSpacing.md),
                   const Icon(Icons.people_outline,

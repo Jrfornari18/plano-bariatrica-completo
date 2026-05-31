@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -69,7 +70,7 @@ class NotificationService {
           importance: Importance.high,
           priority: Priority.high,
           icon: '@mipmap/ic_launcher',
-          color: Color(0xFF2563EB),
+          color: const Color(0xFF2563EB),
         ),
         iOS: DarwinNotificationDetails(
           categoryIdentifier: 'workout',
@@ -114,7 +115,7 @@ class NotificationService {
           channelDescription: 'Notificações de lembretes de refeição',
           importance: Importance.defaultImportance,
           priority: Priority.defaultPriority,
-          color: Color(0xFF10B981),
+          color: const Color(0xFF10B981),
         ),
         iOS: DarwinNotificationDetails(
           categoryIdentifier: 'meal',
@@ -150,7 +151,7 @@ class NotificationService {
             channelDescription: 'Notificações de lembretes de água',
             importance: Importance.low,
             priority: Priority.low,
-            color: Color(0xFF0EA5E9),
+            color: const Color(0xFF0EA5E9),
           ),
           iOS: DarwinNotificationDetails(
             categoryIdentifier: 'water',
@@ -184,7 +185,7 @@ class NotificationService {
           channelDescription: 'Notificações de lembretes de ScanBody',
           importance: Importance.high,
           priority: Priority.high,
-          color: Color(0xFFF59E0B),
+          color: const Color(0xFFF59E0B),
         ),
         iOS: DarwinNotificationDetails(
           categoryIdentifier: 'scanbody',
@@ -226,7 +227,7 @@ class NotificationService {
             channelDescription: 'Notificações de lembretes de suplementos',
             importance: Importance.defaultImportance,
             priority: Priority.defaultPriority,
-            color: Color(0xFF7C3AED),
+            color: const Color(0xFF7C3AED),
           ),
           iOS: DarwinNotificationDetails(
             categoryIdentifier: 'supplement',

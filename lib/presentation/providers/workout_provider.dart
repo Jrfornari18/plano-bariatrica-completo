@@ -31,6 +31,18 @@ class WorkoutProvider extends ChangeNotifier {
   int get completedTodayCount =>
       todayWorkouts.where((w) => w.isCompleted).length;
 
+  List<WorkoutModel> get weekWorkouts {
+    final today = DateTime.now();
+    final startOfWeek = today.subtract(Duration(days: today.weekday - 1));
+    return _workouts.where((w) =>
+        w.date.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
+        w.date.isBefore(startOfWeek.add(const Duration(days: 7)))).toList()
+      ..sort((a, b) => a.date.compareTo(b.date));
+  }
+
+  Future<void> markWorkoutComplete(String workoutId) =>
+      completeWorkout(workoutId);
+
   void setSelectedDate(DateTime date) {
     _selectedDate = date;
     notifyListeners();

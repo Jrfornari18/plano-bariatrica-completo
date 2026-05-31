@@ -104,7 +104,7 @@ class _TodayMealsTab extends StatelessWidget {
     );
   }
 
-  Widget _buildMacrosSummary(BuildContext context, MacroNutrients macros) {
+  Widget _buildMacrosSummary(BuildContext context, MacrosModel macros) {
     return Container(
       margin: const EdgeInsets.all(AppSpacing.lg),
       padding: const EdgeInsets.all(AppSpacing.lg),
@@ -245,7 +245,7 @@ class _MacrosTab extends StatelessWidget {
     );
   }
 
-  Widget _buildNutritionGoals(MacroNutrients macros) {
+  Widget _buildNutritionGoals(MacrosModel macros) {
     final goals = [
       _NutritionGoal(
           label: 'Calorias',
@@ -273,7 +273,7 @@ class _MacrosTab extends StatelessWidget {
           color: AppColors.secondary),
       _NutritionGoal(
           label: 'Fibras',
-          current: macros.fiber,
+          current: macros.fiber ?? 0,
           target: 25,
           unit: 'g',
           color: const Color(0xFF7C3AED)),

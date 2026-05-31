@@ -302,7 +302,7 @@ class _MacroCard extends StatelessWidget {
 }
 
 class _FoodItemCard extends StatelessWidget {
-  final FoodItem item;
+  final FoodItemModel item;
 
   const _FoodItemCard({required this.item});
 

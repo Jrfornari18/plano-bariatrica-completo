@@ -210,7 +210,10 @@ class _WeekTab extends StatelessWidget {
             final startOfWeek =
                 today.subtract(Duration(days: today.weekday - 1));
             final date = startOfWeek.add(Duration(days: dayIndex));
-            final dayWorkouts = weekWorkouts[dayIndex] ?? [];
+            final dayWorkouts = weekWorkouts.where((w) =>
+                w.date.year == date.year &&
+                w.date.month == date.month &&
+                w.date.day == date.day).toList();
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -402,23 +405,23 @@ class _WorkoutCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final typeColors = {
-      WorkoutType.strength: AppColors.primary,
-      WorkoutType.swimming: const Color(0xFF0EA5E9),
-      WorkoutType.running: AppColors.secondary,
-      WorkoutType.calisthenics: AppColors.warning,
-      WorkoutType.stretching: const Color(0xFF7C3AED),
-      WorkoutType.hiit: AppColors.danger,
-      WorkoutType.rest: AppColors.textHint,
+      WorkoutType.musculacao: AppColors.primary,
+      WorkoutType.natacao: const Color(0xFF0EA5E9),
+      WorkoutType.corrida: AppColors.secondary,
+      WorkoutType.calistenia: AppColors.warning,
+      WorkoutType.alongamento: const Color(0xFF7C3AED),
+      WorkoutType.funcional: AppColors.danger,
+      WorkoutType.descanso: AppColors.textHint,
     };
 
     final typeIcons = {
-      WorkoutType.strength: '🏋️',
-      WorkoutType.swimming: '🏊',
-      WorkoutType.running: '🏃',
-      WorkoutType.calisthenics: '💪',
-      WorkoutType.stretching: '🧘',
-      WorkoutType.hiit: '⚡',
-      WorkoutType.rest: '😴',
+      WorkoutType.musculacao: '🏋️',
+      WorkoutType.natacao: '🏊',
+      WorkoutType.corrida: '🏃',
+      WorkoutType.calistenia: '💪',
+      WorkoutType.alongamento: '🧘',
+      WorkoutType.funcional: '⚡',
+      WorkoutType.descanso: '😴',
     };
 
     final color = typeColors[workout.type] ?? AppColors.primary;
@@ -671,51 +674,6 @@ class _EmptyWorkoutsState extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-        ],
-      ),
-    );
-  }
-}
-
-// Expose state for navigation
-class _WorkoutsScreenState extends State<WorkoutsScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  DateTime _selectedDate = DateTime.now();
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Treinos'),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: 'Hoje'),
-            Tab(text: 'Semana'),
-            Tab(text: 'Programa'),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _TodayTab(selectedDate: _selectedDate),
-          const _WeekTab(),
-          const _ProgramTab(),
         ],
       ),
     );

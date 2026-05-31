@@ -7,6 +7,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/workout_provider.dart';
 import '../../providers/meal_provider.dart';
 import '../../providers/scanbody_provider.dart';
+import 'home_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -292,13 +293,7 @@ class DashboardScreen extends StatelessWidget {
                 icon: Icons.camera_alt,
                 label: 'Novo\nScanBody',
                 color: AppColors.warning,
-                onTap: () {
-                  // Navigate to scanbody
-                  final homeState = context.findAncestorStateOfType<
-                      _HomeScreenState>();
-                  // ignore: invalid_use_of_protected_member
-                  homeState?.setState(() => homeState._currentIndex = 3);
-                },
+                onTap: () => Navigator.pushNamed(context, '/scanbody'),
               ),
             ),
             const SizedBox(width: AppSpacing.md),
@@ -307,11 +302,7 @@ class DashboardScreen extends StatelessWidget {
                 icon: Icons.smart_toy,
                 label: 'Perguntar\npara Babi',
                 color: const Color(0xFF7C3AED),
-                onTap: () {
-                  final homeState = context.findAncestorStateOfType<
-                      _HomeScreenState>();
-                  homeState?.setState(() => homeState._currentIndex = 4);
-                },
+                onTap: () => Navigator.pushNamed(context, '/chat'),
               ),
             ),
             const SizedBox(width: AppSpacing.md),
@@ -320,11 +311,7 @@ class DashboardScreen extends StatelessWidget {
                 icon: Icons.add_circle_outline,
                 label: 'Registrar\nRefeição',
                 color: AppColors.secondary,
-                onTap: () {
-                  final homeState = context.findAncestorStateOfType<
-                      _HomeScreenState>();
-                  homeState?.setState(() => homeState._currentIndex = 2);
-                },
+                onTap: () => Navigator.pushNamed(context, '/meals'),
               ),
             ),
           ],
@@ -347,11 +334,7 @@ class DashboardScreen extends StatelessWidget {
               children: [
                 const Text('Treinos de Hoje', style: AppTextStyles.headlineSmall),
                 TextButton(
-                  onPressed: () {
-                    final homeState = context.findAncestorStateOfType<
-                        _HomeScreenState>();
-                    homeState?.setState(() => homeState._currentIndex = 1);
-                  },
+                  onPressed: () => Navigator.pushNamed(context, '/workouts'),
                   child: const Text('Ver todos'),
                 ),
               ],
@@ -381,11 +364,7 @@ class DashboardScreen extends StatelessWidget {
               children: [
                 const Text('Refeições de Hoje', style: AppTextStyles.headlineSmall),
                 TextButton(
-                  onPressed: () {
-                    final homeState = context.findAncestorStateOfType<
-                        _HomeScreenState>();
-                    homeState?.setState(() => homeState._currentIndex = 2);
-                  },
+                  onPressed: () => Navigator.pushNamed(context, '/meals'),
                   child: const Text('Ver todas'),
                 ),
               ],
@@ -701,10 +680,4 @@ class _MealListItem extends StatelessWidget {
       ),
     );
   }
-}
-
-// Expose the state for navigation
-class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
-  set currentIndex(int value) => setState(() => _currentIndex = value);
 }
