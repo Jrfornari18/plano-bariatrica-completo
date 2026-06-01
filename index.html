@@ -2,195 +2,1045 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plano Bariátrica - Fichas Diárias</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Soul Wake - MyAppFit.pro</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1>💪 Plano Pós-Bariátrica</h1>
-                <p class="subtitle">João Carlos - 13/10/2025 a 13/01/2026</p>
-            </div>
-            <div class="header-stats">
-                <div class="stat-card">
-                    <span class="stat-label">Dia</span>
-                    <span class="stat-value" id="currentDay">1</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Fase</span>
-                    <span class="stat-value" id="currentPhase">1</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Progresso</span>
-                    <span class="stat-value" id="progressPercent">0%</span>
-                </div>
-            </div>
-        </header>
 
-        <!-- Date Selector -->
-        <div class="date-selector">
-            <button class="nav-btn" id="prevDay">◀</button>
-            <input type="date" id="dateInput" min="2025-10-13" max="2026-01-13">
-            <button class="nav-btn" id="nextDay">▶</button>
-            <button class="today-btn" id="todayBtn">Hoje</button>
-            <button class="recipes-btn" id="recipesBtn">📖 Receitas</button>
+    <!-- ========== ONBOARDING OVERLAY ========== -->
+    <div id="onboardingOverlay" class="onboarding-overlay active">
+        <div class="onboarding-container">
+
+            <!-- Step 0: Welcome -->
+            <div class="onboarding-step active" id="step-0">
+                <div class="onboarding-logo">
+                    <div class="sw-logo-icon">🌿</div>
+                    <h1 class="sw-logo-text">SOUL WAKE</h1>
+                </div>
+                <div class="onboarding-content">
+                    <p class="onboarding-tagline"><em>"O corpo guarda o que a mente não entende e libera quando a alma desperta."</em></p>
+                    <h2>Bem-vinda ao seu espaço de transformação</h2>
+                    <p class="onboarding-desc">Um programa exclusivo para mulheres que buscam movimento com consciência, equilíbrio e conexão genuína consigo mesmas.</p>
+                    <button class="btn-primary" onclick="nextStep()">Começar minha jornada ✨</button>
+                </div>
+            </div>
+
+            <!-- Step 1: Personal Info -->
+            <div class="onboarding-step" id="step-1">
+                <div class="onboarding-header">
+                    <button class="back-btn" onclick="prevStep()">←</button>
+                    <div class="step-indicator">
+                        <span class="step-dot active"></span>
+                        <span class="step-dot"></span>
+                        <span class="step-dot"></span>
+                        <span class="step-dot"></span>
+                    </div>
+                </div>
+                <div class="onboarding-content">
+                    <h2>Vamos nos conhecer 🌸</h2>
+                    <p>Conte um pouco sobre você para personalizarmos sua experiência.</p>
+                    <div class="form-group">
+                        <label>Como você prefere ser chamada?</label>
+                        <input type="text" id="userName" placeholder="Seu nome" class="sw-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Qual é a sua idade?</label>
+                        <select id="userAge" class="sw-input">
+                            <option value="">Selecione</option>
+                            <option value="18-25">18 a 25 anos</option>
+                            <option value="26-35">26 a 35 anos</option>
+                            <option value="36-45">36 a 45 anos</option>
+                            <option value="46-55">46 a 55 anos</option>
+                            <option value="55+">Acima de 55 anos</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Qual é o seu contexto atual?</label>
+                        <select id="userContext" class="sw-input">
+                            <option value="">Selecione</option>
+                            <option value="corporate">Profissional corporativa</option>
+                            <option value="entrepreneur">Empreendedora</option>
+                            <option value="student">Estudante</option>
+                            <option value="mom">Mãe</option>
+                            <option value="other">Outro</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" onclick="nextStep()">Continuar →</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Goals -->
+            <div class="onboarding-step" id="step-2">
+                <div class="onboarding-header">
+                    <button class="back-btn" onclick="prevStep()">←</button>
+                    <div class="step-indicator">
+                        <span class="step-dot"></span>
+                        <span class="step-dot active"></span>
+                        <span class="step-dot"></span>
+                        <span class="step-dot"></span>
+                    </div>
+                </div>
+                <div class="onboarding-content">
+                    <h2>Seus objetivos 🎯</h2>
+                    <p>Selecione o que você deseja transformar (pode escolher mais de um):</p>
+                    <div class="goals-grid">
+                        <div class="goal-card" onclick="toggleGoal(this, 'stress')">
+                            <span class="goal-icon">😌</span>
+                            <span>Reduzir estresse</span>
+                        </div>
+                        <div class="goal-card" onclick="toggleGoal(this, 'focus')">
+                            <span class="goal-icon">🎯</span>
+                            <span>Aumentar foco</span>
+                        </div>
+                        <div class="goal-card" onclick="toggleGoal(this, 'flexibility')">
+                            <span class="goal-icon">🧘‍♀️</span>
+                            <span>Flexibilidade</span>
+                        </div>
+                        <div class="goal-card" onclick="toggleGoal(this, 'energy')">
+                            <span class="goal-icon">⚡</span>
+                            <span>Mais energia</span>
+                        </div>
+                        <div class="goal-card" onclick="toggleGoal(this, 'sleep')">
+                            <span class="goal-icon">🌙</span>
+                            <span>Qualidade do sono</span>
+                        </div>
+                        <div class="goal-card" onclick="toggleGoal(this, 'connection')">
+                            <span class="goal-icon">💫</span>
+                            <span>Conexão interna</span>
+                        </div>
+                        <div class="goal-card" onclick="toggleGoal(this, 'body')">
+                            <span class="goal-icon">🌸</span>
+                            <span>Bem-estar corporal</span>
+                        </div>
+                        <div class="goal-card" onclick="toggleGoal(this, 'breath')">
+                            <span class="goal-icon">🌬️</span>
+                            <span>Respiração consciente</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="nextStep()">Continuar →</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Body Scan Intro -->
+            <div class="onboarding-step" id="step-3">
+                <div class="onboarding-header">
+                    <button class="back-btn" onclick="prevStep()">←</button>
+                    <div class="step-indicator">
+                        <span class="step-dot"></span>
+                        <span class="step-dot"></span>
+                        <span class="step-dot active"></span>
+                        <span class="step-dot"></span>
+                    </div>
+                </div>
+                <div class="onboarding-content">
+                    <h2>ScanBody Feminino 🌺</h2>
+                    <p>Vamos criar seu perfil de bem-estar personalizado. Essas informações nos ajudam a adaptar cada prática ao seu momento.</p>
+                    <div class="form-group">
+                        <label>Altura (cm)</label>
+                        <input type="number" id="userHeight" placeholder="Ex: 165" class="sw-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Peso atual (kg)</label>
+                        <input type="number" id="userWeight" step="0.1" placeholder="Ex: 62.5" class="sw-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Como está seu nível de estresse hoje?</label>
+                        <div class="stress-scale">
+                            <span>Baixo</span>
+                            <input type="range" id="stressLevel" min="1" max="10" value="5" class="sw-range">
+                            <span>Alto</span>
+                        </div>
+                        <div class="scale-value" id="stressValue">5/10</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Como dormiu nas últimas noites?</label>
+                        <select id="sleepQuality" class="sw-input">
+                            <option value="">Selecione</option>
+                            <option value="great">Muito bem 😊</option>
+                            <option value="good">Bem 🙂</option>
+                            <option value="average">Regular 😐</option>
+                            <option value="poor">Mal 😔</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" onclick="nextStep()">Continuar →</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Diet Preference -->
+            <div class="onboarding-step" id="step-4">
+                <div class="onboarding-header">
+                    <button class="back-btn" onclick="prevStep()">←</button>
+                    <div class="step-indicator">
+                        <span class="step-dot"></span>
+                        <span class="step-dot"></span>
+                        <span class="step-dot"></span>
+                        <span class="step-dot active"></span>
+                    </div>
+                </div>
+                <div class="onboarding-content">
+                    <h2>Sua alimentação 🥗</h2>
+                    <p>Selecione o estilo alimentar que melhor descreve você:</p>
+                    <div class="diet-options">
+                        <div class="diet-card selected" onclick="selectDiet(this, 'omnivore')">
+                            <span class="diet-icon">🍽️</span>
+                            <h4>Onívora</h4>
+                            <p>Como de tudo com foco em saúde</p>
+                        </div>
+                        <div class="diet-card" onclick="selectDiet(this, 'vegetarian')">
+                            <span class="diet-icon">🥦</span>
+                            <h4>Vegetariana</h4>
+                            <p>Sem carnes, mas com ovos e laticínios</p>
+                        </div>
+                        <div class="diet-card" onclick="selectDiet(this, 'vegan')">
+                            <span class="diet-icon">🌱</span>
+                            <h4>Vegana</h4>
+                            <p>100% de origem vegetal</p>
+                        </div>
+                        <div class="diet-card" onclick="selectDiet(this, 'glutenfree')">
+                            <span class="diet-icon">🌾</span>
+                            <h4>Sem Glúten</h4>
+                            <p>Alimentação sem glúten</p>
+                        </div>
+                        <div class="diet-card" onclick="selectDiet(this, 'lactosefree')">
+                            <span class="diet-icon">🥛</span>
+                            <h4>Sem Lactose</h4>
+                            <p>Alimentação sem lactose</p>
+                        </div>
+                        <div class="diet-card" onclick="selectDiet(this, 'functional')">
+                            <span class="diet-icon">✨</span>
+                            <h4>Funcional</h4>
+                            <p>Foco em alimentos funcionais e anti-inflamatórios</p>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="completeOnboarding()">Iniciar minha jornada 🌿</button>
+                </div>
+            </div>
+
         </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Phase Banner -->
-            <div class="phase-banner" id="phaseBanner">
-                <h2 id="phaseTitle">FASE 1: FUNDAÇÃO</h2>
-                <p id="phaseDescription">Adaptação e Técnica</p>
-            </div>
-
-            <!-- Daily Summary -->
-            <div class="summary-card">
-                <h3>🎯 Resumo do Dia</h3>
-                <div class="summary-grid">
-                    <div class="summary-item">
-                        <span class="summary-label">Data:</span>
-                        <span class="summary-value" id="displayDate">13/10/2025</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Dia da Semana:</span>
-                        <span class="summary-value" id="displayWeekday">Segunda-feira</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Treinos:</span>
-                        <span class="summary-value" id="displayWorkouts">2 treinos</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Calorias:</span>
-                        <span class="summary-value" id="displayCalories">2.300-2.400 kcal</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Proteínas:</span>
-                        <span class="summary-value" id="displayProtein">165-175g</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Nutrition Section -->
-            <div class="section-card">
-                <h3>🍽️ Alimentação do Dia</h3>
-                <div id="nutritionContent" class="nutrition-content"></div>
-            </div>
-
-            <!-- Workouts Section -->
-            <div class="section-card">
-                <h3>💪 Treinos do Dia</h3>
-                <div id="workoutsContent" class="workouts-content"></div>
-            </div>
-
-            <!-- Stretching Section -->
-            <div class="section-card">
-                <h3>🧘 Alongamento + Funcional (10-15 min)</h3>
-                <div class="stretching-content">
-                    <h4>Alongamentos (5-7 min) - 30s cada:</h4>
-                    <div class="checklist" id="stretchingChecklist"></div>
-                    
-                    <h4>Exercícios Funcionais (5-8 min) - 2-3 rounds:</h4>
-                    <div class="checklist" id="functionalChecklist"></div>
-                </div>
-            </div>
-
-            <!-- Daily Checklist -->
-            <div class="section-card">
-                <h3>✅ Checklist Diário</h3>
-                <div class="checklist-sections">
-                    <div class="checklist-section">
-                        <h4>Nutrição</h4>
-                        <div class="checklist" id="nutritionChecklist"></div>
-                    </div>
-                    <div class="checklist-section">
-                        <h4>Treino</h4>
-                        <div class="checklist" id="workoutChecklist"></div>
-                    </div>
-                    <div class="checklist-section">
-                        <h4>Recuperação</h4>
-                        <div class="checklist" id="recoveryChecklist"></div>
-                    </div>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="dailyProgress"></div>
-                    <span class="progress-text" id="progressText">0% concluído</span>
-                </div>
-            </div>
-
-            <!-- Notes Section -->
-            <div class="section-card">
-                <h3>📊 Anotações e Registros</h3>
-                <div class="notes-grid">
-                    <div class="note-item">
-                        <label>Peso (kg):</label>
-                        <input type="number" step="0.1" id="weightInput" placeholder="Ex: 94.6">
-                    </div>
-                    <div class="note-item">
-                        <label>Tempo Cardio (min):</label>
-                        <input type="number" id="cardioTimeInput" placeholder="Ex: 45">
-                    </div>
-                    <div class="note-item">
-                        <label>Distância Natação (m):</label>
-                        <input type="number" id="swimDistanceInput" placeholder="Ex: 2000">
-                    </div>
-                </div>
-                
-                <div class="feeling-section">
-                    <h4>Como me senti hoje:</h4>
-                    <div class="feeling-grid">
-                        <div class="feeling-item">
-                            <label>Energia:</label>
-                            <select id="energySelect">
-                                <option value="">Selecione</option>
-                                <option value="baixa">Baixa</option>
-                                <option value="media">Média</option>
-                                <option value="alta">Alta</option>
-                            </select>
-                        </div>
-                        <div class="feeling-item">
-                            <label>Recuperação:</label>
-                            <select id="recoverySelect">
-                                <option value="">Selecione</option>
-                                <option value="cansado">Cansado</option>
-                                <option value="normal">Normal</option>
-                                <option value="bem">Bem Recuperado</option>
-                            </select>
-                        </div>
-                        <div class="feeling-item">
-                            <label>Fome:</label>
-                            <select id="hungerSelect">
-                                <option value="">Selecione</option>
-                                <option value="muita">Muita</option>
-                                <option value="normal">Normal</option>
-                                <option value="pouca">Pouca</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="observations-section">
-                    <label>Observações:</label>
-                    <textarea id="observationsText" rows="4" placeholder="Anote aqui como foi seu dia, dificuldades, conquistas..."></textarea>
-                </div>
-
-                <button class="save-btn" id="saveNotesBtn">💾 Salvar Anotações</button>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>💪 Foque no progresso, não na perfeição!</p>
-            <p class="footer-small">Plano desenvolvido por Manus AI</p>
-        </footer>
     </div>
 
-    <script src="recipes.js"></script>
+    <!-- ========== MAIN APP ========== -->
+    <div id="mainApp" class="main-app hidden">
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="showSection('home')" id="nav-home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Início</span>
+            </button>
+            <button class="nav-item" onclick="showSection('movement')" id="nav-movement">
+                <span class="nav-icon">🧘‍♀️</span>
+                <span class="nav-label">Movimento</span>
+            </button>
+            <button class="nav-item" onclick="showSection('nutrition')" id="nav-nutrition">
+                <span class="nav-icon">🥗</span>
+                <span class="nav-label">Nutrição</span>
+            </button>
+            <button class="nav-item" onclick="showSection('scanbody')" id="nav-scanbody">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">ScanBody</span>
+            </button>
+            <button class="nav-item" onclick="showSection('marketplace')" id="nav-marketplace">
+                <span class="nav-icon">🛍️</span>
+                <span class="nav-label">Store</span>
+            </button>
+        </nav>
+
+        <!-- ===== HOME SECTION ===== -->
+        <section id="section-home" class="app-section active">
+            <div class="section-scroll">
+                <!-- Header -->
+                <header class="app-header">
+                    <div class="header-top">
+                        <div class="header-greeting">
+                            <p class="greeting-small">Bom dia,</p>
+                            <h2 class="greeting-name" id="greetingName">Guerreira</h2>
+                        </div>
+                        <div class="header-logo">
+                            <div class="sw-logo-small">🌿 SOUL WAKE</div>
+                        </div>
+                    </div>
+                    <p class="daily-quote" id="dailyQuote">"Cada respiração consciente é um ato de amor próprio."</p>
+                </header>
+
+                <!-- Today's Stats -->
+                <div class="stats-row">
+                    <div class="stat-pill">
+                        <span class="stat-icon">🔥</span>
+                        <div>
+                            <span class="stat-num" id="homeDay">1</span>
+                            <span class="stat-lbl">Dia</span>
+                        </div>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-icon">⭐</span>
+                        <div>
+                            <span class="stat-num" id="homeStreak">0</span>
+                            <span class="stat-lbl">Sequência</span>
+                        </div>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-icon">✅</span>
+                        <div>
+                            <span class="stat-num" id="homeProgress">0%</span>
+                            <span class="stat-lbl">Hoje</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice of the Day -->
+                <div class="card-featured">
+                    <div class="card-featured-badge">Prática do Dia</div>
+                    <h3 id="todayPracticeTitle">Yoga Matinal - Despertar Suave</h3>
+                    <p id="todayPracticeDesc">Uma sequência gentil para acordar o corpo e a mente com consciência e leveza.</p>
+                    <div class="practice-meta">
+                        <span class="meta-tag">⏱️ <span id="todayPracticeTime">25 min</span></span>
+                        <span class="meta-tag">🌿 <span id="todayPracticeLevel">Iniciante</span></span>
+                        <span class="meta-tag">🎯 <span id="todayPracticeType">Yoga Flow</span></span>
+                    </div>
+                    <button class="btn-primary" onclick="showSection('movement')">Iniciar prática →</button>
+                </div>
+
+                <!-- Daily Checklist -->
+                <div class="card">
+                    <h3 class="card-title">✅ Checklist de Hoje</h3>
+                    <div class="checklist-home" id="homeChecklist">
+                        <label class="check-item">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <span>🌬️ Respiração matinal (5 min)</span>
+                        </label>
+                        <label class="check-item">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <span>🧘‍♀️ Prática de yoga do dia</span>
+                        </label>
+                        <label class="check-item">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <span>💧 8 copos de água</span>
+                        </label>
+                        <label class="check-item">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <span>🥗 Alimentação consciente</span>
+                        </label>
+                        <label class="check-item">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <span>🌙 Pausa de 5 min ao meio-dia</span>
+                        </label>
+                        <label class="check-item">
+                            <input type="checkbox" onchange="updateProgress()">
+                            <span>📓 Registro de gratidão</span>
+                        </label>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar-sw" id="dailyProgressBar"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">0 de 6 concluídas</p>
+                </div>
+
+                <!-- Pilares Soul Wake -->
+                <div class="card">
+                    <h3 class="card-title">🌿 Os Pilares Soul Wake</h3>
+                    <div class="pillars-grid">
+                        <div class="pillar-item">
+                            <span class="pillar-icon">🍃</span>
+                            <h4>Leveza</h4>
+                            <p>Movimento com consciência e fluidos</p>
+                        </div>
+                        <div class="pillar-item">
+                            <span class="pillar-icon">💪</span>
+                            <h4>Movimento</h4>
+                            <p>Ativação física para liberar energia</p>
+                        </div>
+                        <div class="pillar-item">
+                            <span class="pillar-icon">🎯</span>
+                            <h4>Concentração</h4>
+                            <p>Práticas que estimulam presença e foco</p>
+                        </div>
+                        <div class="pillar-item">
+                            <span class="pillar-icon">🌱</span>
+                            <h4>Desenvolvimento</h4>
+                            <p>Crescimento contínuo, corpo e alma</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood Tracker -->
+                <div class="card">
+                    <h3 class="card-title">💫 Como você está agora?</h3>
+                    <div class="mood-grid">
+                        <button class="mood-btn" onclick="setMood(this, 'amazing')">😄<span>Incrível</span></button>
+                        <button class="mood-btn" onclick="setMood(this, 'good')">🙂<span>Bem</span></button>
+                        <button class="mood-btn" onclick="setMood(this, 'neutral')">😐<span>Neutro</span></button>
+                        <button class="mood-btn" onclick="setMood(this, 'tired')">😔<span>Cansada</span></button>
+                        <button class="mood-btn" onclick="setMood(this, 'stressed')">😤<span>Estressada</span></button>
+                    </div>
+                    <div id="moodRecommendation" class="mood-recommendation hidden"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===== MOVEMENT SECTION ===== -->
+        <section id="section-movement" class="app-section">
+            <div class="section-scroll">
+                <div class="section-header">
+                    <h2>Movimento Consciente</h2>
+                    <p>Práticas para corpo, mente e alma</p>
+                </div>
+
+                <!-- Category Tabs -->
+                <div class="category-tabs">
+                    <button class="cat-tab active" onclick="filterPractices('all', this)">Todas</button>
+                    <button class="cat-tab" onclick="filterPractices('yoga', this)">Yoga</button>
+                    <button class="cat-tab" onclick="filterPractices('breath', this)">Respiração</button>
+                    <button class="cat-tab" onclick="filterPractices('stretch', this)">Alongamento</button>
+                    <button class="cat-tab" onclick="filterPractices('corporate', this)">Corporativo</button>
+                </div>
+
+                <!-- Practices Grid -->
+                <div class="practices-grid" id="practicesGrid">
+
+                    <!-- Yoga Flow -->
+                    <div class="practice-card" data-category="yoga">
+                        <div class="practice-card-header yoga">
+                            <span class="practice-emoji">🧘‍♀️</span>
+                            <span class="practice-badge">Yoga Flow</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Despertar Matinal</h4>
+                            <p>Sequência suave para acordar o corpo com consciência e gratidão.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 25 min</span>
+                                <span>🌿 Iniciante</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('yoga-morning')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-category="yoga">
+                        <div class="practice-card-header yoga">
+                            <span class="practice-emoji">🌙</span>
+                            <span class="practice-badge">Yoga Flow</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Yoga Noturno</h4>
+                            <p>Sequência restaurativa para soltar as tensões do dia e preparar para o sono.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 30 min</span>
+                                <span>🌿 Todos os níveis</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('yoga-night')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-category="yoga">
+                        <div class="practice-card-header yoga">
+                            <span class="practice-emoji">🔥</span>
+                            <span class="practice-badge">Yoga Flow</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Vinyasa Power</h4>
+                            <p>Fluxo dinâmico para ativar energia, força e foco mental.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 45 min</span>
+                                <span>💪 Intermediário</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('yoga-power')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-category="yoga">
+                        <div class="practice-card-header yoga">
+                            <span class="practice-emoji">💆‍♀️</span>
+                            <span class="practice-badge">Yoga Flow</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Yin Yoga - Soltar</h4>
+                            <p>Posturas passivas de longa duração para liberar tensões profundas e emoções guardadas.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 40 min</span>
+                                <span>🌸 Restaurativo</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('yin-yoga')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <!-- Breathing -->
+                    <div class="practice-card" data-category="breath">
+                        <div class="practice-card-header breath">
+                            <span class="practice-emoji">🌬️</span>
+                            <span class="practice-badge">Pranayama</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Respiração 4-7-8</h4>
+                            <p>Técnica para acalmar o sistema nervoso, reduzir ansiedade e induzir relaxamento profundo.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 10 min</span>
+                                <span>😌 Anti-ansiedade</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('breath-478')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-category="breath">
+                        <div class="practice-card-header breath">
+                            <span class="practice-emoji">⚡</span>
+                            <span class="practice-badge">Pranayama</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Kapalabhati - Energia</h4>
+                            <p>Respiração rítmica e energizante para limpar a mente e ativar vitalidade.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 8 min</span>
+                                <span>⚡ Energizante</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('breath-kapalabhati')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-category="breath">
+                        <div class="practice-card-header breath">
+                            <span class="practice-emoji">🌊</span>
+                            <span class="practice-badge">Pranayama</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Respiração Oceânica (Ujjayi)</h4>
+                            <p>Respiração com som suave para manter foco durante a prática de yoga.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 5 min</span>
+                                <span>🎯 Foco</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('breath-ujjayi')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <!-- Stretching -->
+                    <div class="practice-card" data-category="stretch">
+                        <div class="practice-card-header stretch">
+                            <span class="practice-emoji">🌺</span>
+                            <span class="practice-badge">Alongamento</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Liberar Tensão Cervical</h4>
+                            <p>Sequência para aliviar dores no pescoço e ombros causadas por horas no computador.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 12 min</span>
+                                <span>💼 Escritório</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('stretch-neck')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-category="stretch">
+                        <div class="practice-card-header stretch">
+                            <span class="practice-emoji">🌸</span>
+                            <span class="practice-badge">Alongamento</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Abertura de Quadril</h4>
+                            <p>Sequência focada no quadril, onde guardamos muitas emoções. Libere e floresça.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 20 min</span>
+                                <span>🌸 Emocional</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('stretch-hip')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <!-- Corporate -->
+                    <div class="practice-card" data-category="corporate">
+                        <div class="practice-card-header corporate">
+                            <span class="practice-emoji">💼</span>
+                            <span class="practice-badge">Corporativo</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Pausa Consciente 5 min</h4>
+                            <p>Micro-prática para fazer na cadeira do escritório. Respire, recentre e volte com mais foco.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 5 min</span>
+                                <span>💼 No escritório</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('corporate-pause')">Iniciar →</button>
+                        </div>
+                    </div>
+
+                    <div class="practice-card" data-category="corporate">
+                        <div class="practice-card-header corporate">
+                            <span class="practice-emoji">🤝</span>
+                            <span class="practice-badge">Corporativo</span>
+                        </div>
+                        <div class="practice-card-body">
+                            <h4>Soul Wake em Equipe</h4>
+                            <p>Prática coletiva de 60-90 min. Movimento, respiração consciente e conexão entre participantes.</p>
+                            <div class="practice-tags">
+                                <span>⏱️ 60-90 min</span>
+                                <span>👥 Grupo</span>
+                            </div>
+                            <button class="btn-practice" onclick="openPractice('corporate-team')">Ver programa →</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== NUTRITION SECTION ===== -->
+        <section id="section-nutrition" class="app-section">
+            <div class="section-scroll">
+                <div class="section-header">
+                    <h2>Nutrição Consciente</h2>
+                    <p>Alimentação que nutre corpo e alma</p>
+                </div>
+
+                <!-- Diet Filter -->
+                <div class="category-tabs">
+                    <button class="cat-tab active" onclick="filterMeals('all', this)">Todas</button>
+                    <button class="cat-tab" onclick="filterMeals('omnivore', this)">Onívora</button>
+                    <button class="cat-tab" onclick="filterMeals('vegetarian', this)">Vegetariana</button>
+                    <button class="cat-tab" onclick="filterMeals('vegan', this)">Vegana</button>
+                    <button class="cat-tab" onclick="filterMeals('functional', this)">Funcional</button>
+                </div>
+
+                <!-- Today's Meal Plan -->
+                <div class="card">
+                    <h3 class="card-title">🌅 Cardápio do Dia</h3>
+                    <div id="mealPlanContent">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Hydration Tracker -->
+                <div class="card">
+                    <h3 class="card-title">💧 Hidratação</h3>
+                    <p class="card-desc">Meta: 8 copos de água por dia</p>
+                    <div class="water-tracker" id="waterTracker">
+                        <!-- Populated by JS -->
+                    </div>
+                    <p class="water-count" id="waterCount">0 / 8 copos</p>
+                </div>
+
+                <!-- Wellness Drinks -->
+                <div class="card">
+                    <h3 class="card-title">🍵 Chás e Infusões Terapêuticas</h3>
+                    <div class="teas-grid" id="teasGrid">
+                        <div class="tea-card">
+                            <span class="tea-icon">🌿</span>
+                            <h4>Chá de Camomila</h4>
+                            <p>Calmante natural, ideal antes de dormir. Reduz ansiedade e melhora o sono.</p>
+                            <span class="tea-tag">🌙 Noturno</span>
+                        </div>
+                        <div class="tea-card">
+                            <span class="tea-icon">🍋</span>
+                            <h4>Água com Limão + Gengibre</h4>
+                            <p>Detox matinal, anti-inflamatório e energizante. Ativa o metabolismo.</p>
+                            <span class="tea-tag">🌅 Matinal</span>
+                        </div>
+                        <div class="tea-card">
+                            <span class="tea-icon">🌸</span>
+                            <h4>Chá de Hibisco</h4>
+                            <p>Rico em antioxidantes, auxilia na circulação e tem ação diurética natural.</p>
+                            <span class="tea-tag">☀️ Tarde</span>
+                        </div>
+                        <div class="tea-card">
+                            <span class="tea-icon">🍃</span>
+                            <h4>Chá Verde Matcha</h4>
+                            <p>Energia sustentada, foco mental e rico em antioxidantes. Alternativa ao café.</p>
+                            <span class="tea-tag">⚡ Energia</span>
+                        </div>
+                        <div class="tea-card">
+                            <span class="tea-icon">🌺</span>
+                            <h4>Golden Milk</h4>
+                            <p>Leite dourado com cúrcuma e canela. Anti-inflamatório poderoso e reconfortante.</p>
+                            <span class="tea-tag">💛 Anti-inflamatório</span>
+                        </div>
+                        <div class="tea-card">
+                            <span class="tea-icon">🫚</span>
+                            <h4>Água de Coco + Hortelã</h4>
+                            <p>Hidratação premium com eletrólitos naturais. Refrescante e revitalizante.</p>
+                            <span class="tea-tag">💧 Hidratação</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recipes -->
+                <div class="card">
+                    <h3 class="card-title">📖 Receitas Soul Wake</h3>
+                    <div class="recipes-grid" id="recipesGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===== SCANBODY SECTION ===== -->
+        <section id="section-scanbody" class="app-section">
+            <div class="section-scroll">
+                <div class="section-header">
+                    <h2>ScanBody Feminino</h2>
+                    <p>Acompanhamento holístico do seu bem-estar</p>
+                </div>
+
+                <!-- Body Metrics -->
+                <div class="card">
+                    <h3 class="card-title">📏 Medidas Corporais</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-input-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" id="scanWeight" step="0.1" placeholder="62.5" class="sw-input">
+                        </div>
+                        <div class="metric-input-group">
+                            <label>Cintura (cm)</label>
+                            <input type="number" id="scanWaist" placeholder="68" class="sw-input">
+                        </div>
+                        <div class="metric-input-group">
+                            <label>Quadril (cm)</label>
+                            <input type="number" id="scanHip" placeholder="96" class="sw-input">
+                        </div>
+                        <div class="metric-input-group">
+                            <label>Busto (cm)</label>
+                            <input type="number" id="scanBust" placeholder="88" class="sw-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wellness Metrics -->
+                <div class="card">
+                    <h3 class="card-title">🌡️ Métricas de Bem-Estar</h3>
+                    <div class="wellness-metrics">
+                        <div class="wellness-metric">
+                            <label>Nível de Estresse (1-10)</label>
+                            <div class="metric-slider-row">
+                                <input type="range" id="scanStress" min="1" max="10" value="5" class="sw-range" oninput="updateSliderValue('scanStress', 'scanStressVal')">
+                                <span class="slider-val" id="scanStressVal">5</span>
+                            </div>
+                        </div>
+                        <div class="wellness-metric">
+                            <label>Qualidade do Sono (1-10)</label>
+                            <div class="metric-slider-row">
+                                <input type="range" id="scanSleep" min="1" max="10" value="7" class="sw-range" oninput="updateSliderValue('scanSleep', 'scanSleepVal')">
+                                <span class="slider-val" id="scanSleepVal">7</span>
+                            </div>
+                        </div>
+                        <div class="wellness-metric">
+                            <label>Nível de Energia (1-10)</label>
+                            <div class="metric-slider-row">
+                                <input type="range" id="scanEnergy" min="1" max="10" value="6" class="sw-range" oninput="updateSliderValue('scanEnergy', 'scanEnergyVal')">
+                                <span class="slider-val" id="scanEnergyVal">6</span>
+                            </div>
+                        </div>
+                        <div class="wellness-metric">
+                            <label>Foco e Presença (1-10)</label>
+                            <div class="metric-slider-row">
+                                <input type="range" id="scanFocus" min="1" max="10" value="6" class="sw-range" oninput="updateSliderValue('scanFocus', 'scanFocusVal')">
+                                <span class="slider-val" id="scanFocusVal">6</span>
+                            </div>
+                        </div>
+                        <div class="wellness-metric">
+                            <label>Conexão Mente-Corpo (1-10)</label>
+                            <div class="metric-slider-row">
+                                <input type="range" id="scanMindBody" min="1" max="10" value="5" class="sw-range" oninput="updateSliderValue('scanMindBody', 'scanMindBodyVal')">
+                                <span class="slider-val" id="scanMindBodyVal">5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cycle Tracking -->
+                <div class="card">
+                    <h3 class="card-title">🌸 Ciclo Feminino</h3>
+                    <p class="card-desc">Adapte suas práticas ao seu ciclo para máximo bem-estar.</p>
+                    <div class="cycle-phases">
+                        <div class="cycle-phase" onclick="selectCyclePhase(this, 'menstrual')">
+                            <span class="cycle-icon">🌑</span>
+                            <h4>Menstrual</h4>
+                            <p>Descanso e introspecção</p>
+                        </div>
+                        <div class="cycle-phase" onclick="selectCyclePhase(this, 'follicular')">
+                            <span class="cycle-icon">🌒</span>
+                            <h4>Folicular</h4>
+                            <p>Energia crescente</p>
+                        </div>
+                        <div class="cycle-phase" onclick="selectCyclePhase(this, 'ovulatory')">
+                            <span class="cycle-icon">🌕</span>
+                            <h4>Ovulatória</h4>
+                            <p>Pico de energia e conexão</p>
+                        </div>
+                        <div class="cycle-phase" onclick="selectCyclePhase(this, 'luteal')">
+                            <span class="cycle-icon">🌘</span>
+                            <h4>Lútea</h4>
+                            <p>Introspecção e cuidado</p>
+                        </div>
+                    </div>
+                    <div id="cycleRecommendation" class="cycle-recommendation hidden"></div>
+                </div>
+
+                <!-- Gratitude Journal -->
+                <div class="card">
+                    <h3 class="card-title">📓 Diário de Gratidão</h3>
+                    <p class="card-desc">Registre 3 coisas pelas quais você é grata hoje.</p>
+                    <div class="gratitude-inputs">
+                        <div class="gratitude-item">
+                            <span class="gratitude-num">1</span>
+                            <input type="text" placeholder="Sou grata por..." class="sw-input" id="gratitude1">
+                        </div>
+                        <div class="gratitude-item">
+                            <span class="gratitude-num">2</span>
+                            <input type="text" placeholder="Sou grata por..." class="sw-input" id="gratitude2">
+                        </div>
+                        <div class="gratitude-item">
+                            <span class="gratitude-num">3</span>
+                            <input type="text" placeholder="Sou grata por..." class="sw-input" id="gratitude3">
+                        </div>
+                    </div>
+                    <textarea id="scanObservations" rows="3" placeholder="Como foi seu dia? Anote suas percepções..." class="sw-textarea"></textarea>
+                    <button class="btn-primary" onclick="saveScanBody()">💾 Salvar registro</button>
+                </div>
+
+                <!-- Progress Chart -->
+                <div class="card">
+                    <h3 class="card-title">📈 Sua Evolução</h3>
+                    <div class="progress-summary" id="progressSummary">
+                        <div class="progress-metric">
+                            <span class="pm-label">Estresse</span>
+                            <div class="pm-bar-container">
+                                <div class="pm-bar stress-bar" style="width: 50%"></div>
+                            </div>
+                            <span class="pm-val" id="avgStress">5.0</span>
+                        </div>
+                        <div class="progress-metric">
+                            <span class="pm-label">Sono</span>
+                            <div class="pm-bar-container">
+                                <div class="pm-bar sleep-bar" style="width: 70%"></div>
+                            </div>
+                            <span class="pm-val" id="avgSleep">7.0</span>
+                        </div>
+                        <div class="progress-metric">
+                            <span class="pm-label">Energia</span>
+                            <div class="pm-bar-container">
+                                <div class="pm-bar energy-bar" style="width: 60%"></div>
+                            </div>
+                            <span class="pm-val" id="avgEnergy">6.0</span>
+                        </div>
+                        <div class="progress-metric">
+                            <span class="pm-label">Foco</span>
+                            <div class="pm-bar-container">
+                                <div class="pm-bar focus-bar" style="width: 60%"></div>
+                            </div>
+                            <span class="pm-val" id="avgFocus">6.0</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ===== MARKETPLACE SECTION ===== -->
+        <section id="section-marketplace" class="app-section">
+            <div class="section-scroll">
+                <div class="section-header">
+                    <h2>Soul Wake Store</h2>
+                    <p>Parceiros selecionados para sua jornada</p>
+                </div>
+
+                <!-- Featured Banner -->
+                <div class="marketplace-banner">
+                    <div class="marketplace-banner-content">
+                        <span class="banner-badge">Exclusivo Soul Wake</span>
+                        <h3>Curadoria especial para mulheres que se movem com consciência</h3>
+                        <p>Produtos e marcas alinhados com os valores de bem-estar, sustentabilidade e autocuidado.</p>
+                    </div>
+                </div>
+
+                <!-- Partner Categories -->
+                <div class="category-tabs">
+                    <button class="cat-tab active" onclick="filterMarketplace('all', this)">Todos</button>
+                    <button class="cat-tab" onclick="filterMarketplace('yoga', this)">Yoga</button>
+                    <button class="cat-tab" onclick="filterMarketplace('nutrition', this)">Nutrição</button>
+                    <button class="cat-tab" onclick="filterMarketplace('fashion', this)">Moda</button>
+                    <button class="cat-tab" onclick="filterMarketplace('wellness', this)">Wellness</button>
+                </div>
+
+                <!-- Partners Grid -->
+                <div class="partners-grid" id="partnersGrid">
+
+                    <!-- Mundo Verde -->
+                    <div class="partner-card" data-category="nutrition">
+                        <div class="partner-logo mundo-verde">
+                            <span>🌿</span>
+                            <span>Mundo Verde</span>
+                        </div>
+                        <div class="partner-body">
+                            <h4>Mundo Verde</h4>
+                            <p>A maior rede de produtos naturais e orgânicos do Brasil. Suplementos, alimentos funcionais e produtos de bem-estar.</p>
+                            <div class="partner-tags">
+                                <span class="ptag">🌱 Orgânicos</span>
+                                <span class="ptag">💊 Suplementos</span>
+                                <span class="ptag">🍃 Natural</span>
+                            </div>
+                            <div class="partner-discount">
+                                <span class="discount-badge">10% OFF</span>
+                                <span class="discount-code">Código: SOULWAKE10</span>
+                            </div>
+                            <button class="btn-partner" onclick="openPartner('mundoverde')">Ver produtos →</button>
+                        </div>
+                    </div>
+
+                    <!-- Yogini -->
+                    <div class="partner-card" data-category="yoga">
+                        <div class="partner-logo yogini">
+                            <span>🧘‍♀️</span>
+                            <span>Yogini</span>
+                        </div>
+                        <div class="partner-body">
+                            <h4>Yogini</h4>
+                            <p>Roupas e acessórios de yoga com design exclusivo, tecidos sustentáveis e conforto para cada prática.</p>
+                            <div class="partner-tags">
+                                <span class="ptag">👗 Moda Yoga</span>
+                                <span class="ptag">🌿 Sustentável</span>
+                                <span class="ptag">✨ Exclusivo</span>
+                            </div>
+                            <div class="partner-discount">
+                                <span class="discount-badge">15% OFF</span>
+                                <span class="discount-code">Código: SOULWAKE15</span>
+                            </div>
+                            <button class="btn-partner" onclick="openPartner('yogini')">Ver coleção →</button>
+                        </div>
+                    </div>
+
+                    <!-- Track & Field -->
+                    <div class="partner-card" data-category="fashion">
+                        <div class="partner-logo trackfield">
+                            <span>🏃‍♀️</span>
+                            <span>Track&Field</span>
+                        </div>
+                        <div class="partner-body">
+                            <h4>Track & Field</h4>
+                            <p>Vestuário esportivo premium com tecnologia e estilo. Roupas que acompanham cada movimento com elegância.</p>
+                            <div class="partner-tags">
+                                <span class="ptag">💎 Premium</span>
+                                <span class="ptag">🔬 Tecnologia</span>
+                                <span class="ptag">🏆 Performance</span>
+                            </div>
+                            <div class="partner-discount">
+                                <span class="discount-badge">10% OFF</span>
+                                <span class="discount-code">Código: SOULWAKE10</span>
+                            </div>
+                            <button class="btn-partner" onclick="openPartner('trackfield')">Ver coleção →</button>
+                        </div>
+                    </div>
+
+                    <!-- Soul Wake Essentials -->
+                    <div class="partner-card featured-partner" data-category="yoga">
+                        <div class="partner-logo soulwake-store">
+                            <span>🌿</span>
+                            <span>Soul Wake</span>
+                        </div>
+                        <div class="partner-body">
+                            <h4>Soul Wake Essentials</h4>
+                            <p>Produtos exclusivos Soul Wake: tapetes de yoga premium, blocos, cintos, óleos essenciais e kits de bem-estar.</p>
+                            <div class="partner-tags">
+                                <span class="ptag">⭐ Exclusivo</span>
+                                <span class="ptag">🧘‍♀️ Yoga</span>
+                                <span class="ptag">🌸 Bem-estar</span>
+                            </div>
+                            <div class="partner-discount">
+                                <span class="discount-badge featured-badge">EXCLUSIVO</span>
+                                <span class="discount-code">Para membros Soul Wake</span>
+                            </div>
+                            <button class="btn-partner featured-btn" onclick="openPartner('soulwake')">Explorar →</button>
+                        </div>
+                    </div>
+
+                    <!-- Aromaterapia -->
+                    <div class="partner-card" data-category="wellness">
+                        <div class="partner-logo aromas">
+                            <span>🌸</span>
+                            <span>Aromas & Bem-Estar</span>
+                        </div>
+                        <div class="partner-body">
+                            <h4>Óleos Essenciais & Aromaterapia</h4>
+                            <p>Difusores, óleos essenciais e incensos naturais para criar seu espaço sagrado de prática.</p>
+                            <div class="partner-tags">
+                                <span class="ptag">🌺 Aromaterapia</span>
+                                <span class="ptag">🕯️ Ambiente</span>
+                                <span class="ptag">🌿 Natural</span>
+                            </div>
+                            <div class="partner-discount">
+                                <span class="discount-badge">12% OFF</span>
+                                <span class="discount-code">Código: SOULWAKE12</span>
+                            </div>
+                            <button class="btn-partner" onclick="openPartner('aromas')">Ver produtos →</button>
+                        </div>
+                    </div>
+
+                    <!-- Meditação & Mindfulness -->
+                    <div class="partner-card" data-category="wellness">
+                        <div class="partner-logo mindful">
+                            <span>🧠</span>
+                            <span>Mindful Living</span>
+                        </div>
+                        <div class="partner-body">
+                            <h4>Mindful Living</h4>
+                            <p>Aplicativos de meditação, diários de gratidão, cristais e ferramentas para prática de mindfulness.</p>
+                            <div class="partner-tags">
+                                <span class="ptag">🧘 Meditação</span>
+                                <span class="ptag">💎 Cristais</span>
+                                <span class="ptag">📓 Diários</span>
+                            </div>
+                            <div class="partner-discount">
+                                <span class="discount-badge">20% OFF</span>
+                                <span class="discount-code">Código: SOULWAKE20</span>
+                            </div>
+                            <button class="btn-partner" onclick="openPartner('mindful')">Explorar →</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Soul Wake Impact -->
+                <div class="card impact-card">
+                    <h3 class="card-title">💫 Impactos Reais Soul Wake</h3>
+                    <div class="impact-stats">
+                        <div class="impact-stat">
+                            <span class="impact-num">-40%</span>
+                            <span class="impact-label">Redução de estresse</span>
+                        </div>
+                        <div class="impact-stat">
+                            <span class="impact-num">↑</span>
+                            <span class="impact-label">Foco e presença</span>
+                        </div>
+                        <div class="impact-stat">
+                            <span class="impact-num">8,6T</span>
+                            <span class="impact-label">Mercado wellness 2024</span>
+                        </div>
+                        <div class="impact-stat">
+                            <span class="impact-num">7,3%</span>
+                            <span class="impact-label">Crescimento anual</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Practice Modal -->
+    <div id="practiceModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closePractice()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePractice()">✕</button>
+            <div id="practiceModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
     <script src="app.js"></script>
-    <script src="recipes-ui.js"></script>
 </body>
 </html>
-

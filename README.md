@@ -1,47 +1,130 @@
-# 💪 Plano Pós-Bariátrica - Sistema Completo
+# Soul Wake — MyAppFit.pro
 
-Sistema web interativo completo para acompanhamento do programa pós-cirurgia bariátrica de 93 dias.
+> **White Label:** `soulwake.myappfit.pro`
+> **Branch:** `soulwake`
+> **Produto:** Exclusivo para mulheres | Wellness, Yoga & Bem-Estar
 
-## 🎯 Funcionalidades Completas
+---
 
-### 📅 Fichas Diárias (93 dias)
-- Navegação por data (13/10/2025 a 13/01/2026)
-- Cardápios personalizados por dia
-- Treinos detalhados com horários
-- 32 checkboxes interativos
-- Anotações com salvamento local
+## Sobre o Soul Wake
 
-### 💪 Treinos Integrados
-- **Musculação:** 3-6x/semana (manhã, meio-dia, noite)
-- **Natação:** 2x/semana (terça e quinta)
-- **Corrida:** 2x/semana (quarta e sábado)
-- **Calistenia:** 7x/semana (15-20 min diários)
-- **Alongamentos:** Diariamente (10-15 min)
-- **Funcionais:** Diariamente (exercícios de postura)
+O **Soul Wake** é uma plataforma mobile-first de bem-estar feminino, desenvolvida como produto white label do ecossistema **MyAppFit.pro**. Inspirada na metodologia da empresa Soul Wake, a plataforma integra movimento consciente, nutrição inteligente e acompanhamento holístico do bem-estar.
 
-### 📖 Receitas Saudáveis
-- 15+ receitas completas
-- Organizadas por categoria
-- Macros detalhados
-- Busca integrada
-- Modal interativo
+### Os 4 Pilares
 
-### 📊 Monitoramento
-- Progresso visual por dia
-- Indicadores de fase (1, 2, 3)
-- Anotações de peso, cardio, natação
-- Como se sentiu (energia, recuperação, fome)
-- Histórico completo
+| Pilar | Descrição |
+|---|---|
+| 🍃 **Leveza** | Movimento com consciência e fluidez |
+| 💪 **Movimento** | Ativação física para liberar energia |
+| 🎯 **Concentração** | Práticas que estimulam presença e foco |
+| 🌱 **Desenvolvimento** | Crescimento contínuo, corpo e alma |
 
-## 🚀 Tecnologias
+---
 
-- HTML5, CSS3, JavaScript (Vanilla)
-- LocalStorage para persistência
-- Design responsivo (mobile-first)
-- PWA-ready
+## Funcionalidades
 
-## 👤 Autor
+### Onboarding Customizado
+- Fluxo de 5 etapas exclusivo para mulheres
+- Coleta de perfil: nome, idade, contexto profissional
+- Seleção de objetivos (reduzir estresse, foco, flexibilidade, sono, etc.)
+- ScanBody inicial com métricas de bem-estar
+- Preferência alimentar (onívora, vegetariana, vegana, funcional, sem glúten, sem lactose)
 
-João Carlos Franco de Barros Fornari Junior  
-Desenvolvido com Manus AI
+### ScanBody Feminino
+- Medidas corporais (peso, cintura, quadril, busto)
+- Métricas de bem-estar (estresse, sono, energia, foco, conexão mente-corpo)
+- Rastreamento do ciclo feminino com recomendações personalizadas por fase
+- Diário de gratidão integrado
+- Dashboard de evolução com barras de progresso
 
+### Movimento Consciente
+- **Yoga Flow:** Despertar Matinal, Yoga Noturno, Vinyasa Power, Yin Yoga
+- **Pranayama:** Respiração 4-7-8, Kapalabhati, Ujjayi
+- **Alongamentos:** Tensão Cervical, Abertura de Quadril
+- **Corporativo:** Pausa Consciente 5 min, Soul Wake em Equipe (60-90 min)
+
+### Nutrição Consciente
+- Cardápios diários por perfil: Onívora, Vegetariana, Vegana, Funcional
+- Rastreador de hidratação (8 copos/dia)
+- Chás e infusões terapêuticas
+- Receitas Soul Wake com tags de dieta e tempo de preparo
+
+### Marketplace Soul Wake
+- **Mundo Verde** — Orgânicos e suplementos naturais (10% OFF: SOULWAKE10)
+- **Yogini** — Roupas e acessórios de yoga sustentáveis (15% OFF: SOULWAKE15)
+- **Track & Field** — Vestuário esportivo premium (10% OFF: SOULWAKE10)
+- **Soul Wake Essentials** — Produtos exclusivos da marca
+- **Aromas & Bem-Estar** — Aromaterapia e óleos essenciais (12% OFF: SOULWAKE12)
+- **Mindful Living** — Meditação e mindfulness (20% OFF: SOULWAKE20)
+
+---
+
+## Stack Técnica
+
+- **Frontend:** HTML5 + CSS3 + JavaScript Vanilla
+- **Design:** Mobile-First, sem dependências externas
+- **Fontes:** Playfair Display + Lato (Google Fonts)
+- **Armazenamento:** localStorage (dados do usuário)
+- **Assets:** Imagens geradas por IA (hero, onboarding, nutrição)
+
+---
+
+## Identidade Visual
+
+| Token | Valor |
+|---|---|
+| Terracotta Principal | `#8B2E1A` |
+| Terracotta Claro | `#C4614A` |
+| Bege Quente | `#F5EDE0` |
+| Verde Sage | `#7A9E7E` |
+| Dourado | `#D4A853` |
+| Tipografia Display | Playfair Display |
+| Tipografia Corpo | Lato |
+
+---
+
+## Estrutura de Arquivos
+
+```
+soulwake/
+├── index.html          # App shell completo (SPA mobile-first)
+├── styles.css          # Sistema de design Soul Wake
+├── app.js              # Lógica, dados e interações
+├── assets/
+│   ├── hero-yoga.jpg   # Hero image - Yoga ao nascer do sol
+│   ├── onboard-bg.jpg  # Background onboarding - Meditação
+│   └── nutrition-bg.jpg # Background nutrição - Buddha Bowl
+└── README.md           # Este arquivo
+```
+
+---
+
+## Desenvolvimento
+
+```bash
+# Clonar e acessar a branch
+git clone https://github.com/Jrfornari18/plano-bariatrica-completo
+cd plano-bariatrica-completo
+git checkout soulwake
+
+# Abrir localmente
+open index.html
+# ou
+python3 -m http.server 8080
+```
+
+---
+
+## White Label — MyAppFit.pro
+
+Este produto faz parte do ecossistema **MyAppFit.pro**, uma plataforma white label para empresas de saúde e bem-estar. Cada instância pode ser customizada com:
+
+- Identidade visual da empresa parceira
+- Conteúdo de práticas personalizado
+- Cardápios e protocolos específicos
+- Marketplace com parceiros selecionados
+- Domínio próprio (`empresa.myappfit.pro`)
+
+---
+
+*Desenvolvido com 🌿 para o ecossistema MyAppFit.pro — 2026*
