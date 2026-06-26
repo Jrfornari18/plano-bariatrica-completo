@@ -1,0 +1,41 @@
+version: "3.9"
+
+# BodyScan KB & Memory — Docker Compose para desenvolvimento local
+# Uso: docker-compose up
+# Para produção com PostgreSQL: usar docker-compose.prod.yml
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      # Persistir banco SQLite fora do container (MVP)
+      - ./data:/data
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:////data/bodyscan_kb.db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+# Para produção com PostgreSQL + pgvector, adicionar:
+# services:
+#   db:
+#     image: pgvector/pgvector:pg16
+#     environment:
+#       POSTGRES_DB: bodyscan_kb
+#       POSTGRES_USER: ${DB_USER}
+#       POSTGRES_PASSWORD: ${DB_PASSWORD}
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#   api:
+#     environment:
+#       - DATABASE_URL=postgresql+asyncpg://${DB_USER}:${DB_PASSWORD}@db:5432/bodyscan_kb
+#     depends_on:
+#       db:
+#         condition: service_healthy
