@@ -531,6 +531,10 @@ function saveNotes() {
     };
     
     localStorage.setItem(`notes_${dateKey}`, JSON.stringify(notes));
+    // Sincroniza peso atual com o KB widget
+    if (notes.weight) {
+        localStorage.setItem('bodyscan_peso_atual', notes.weight);
+    }
     showSuccessMessage('Anotações salvas com sucesso! ✅');
 }
 

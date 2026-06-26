@@ -1,0 +1,1 @@
+# BodyScan KB — Tests package
