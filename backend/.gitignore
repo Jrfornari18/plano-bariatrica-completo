@@ -1,0 +1,26 @@
+# Segredos — NUNCA commitar (RNF-02)
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Índice vetorial (gerado pelo script de ingestão)
+app/db/faiss_index.bin
+app/db/faiss_ids.json
+
+# Banco de dados (não versionar dados sensíveis em produção)
+# app/db/knowledge_base.db  # comentado: versionado para facilitar o setup inicial
+
+# IDEs
+.vscode/
+.idea/
+*.swp
